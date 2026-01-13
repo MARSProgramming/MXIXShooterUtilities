@@ -11,18 +11,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.interfaces.SwerveExtensionInterface;
 
 
-public class ShooterUtilities {
-
-    private Translation2d deltaTranslation;
-    private ChassisSpeeds rotationSpeed;
-    private double tolerance;
-    private double rotationKP;
-    private boolean atTolerance;
-    private ChassisSpeeds robotSpeed = new ChassisSpeeds(); // Field relative robot speeds. Convert before passing.
-
+public class ShotCalculators {
     double velocityCompensationFactor;
     double testTolerance = 5; //  5 degrees tolerance
 
@@ -64,6 +55,10 @@ public class ShooterUtilities {
     
     
     // Calculate the time of flight to a target height. Useful for leading shots at low velocities.
+
+    // need to empirically calculate using our table, what the ideal efficiency factor of the shot is from conservation of energy.
+
+    // we need to create another interpolation table for velocity based on distance to target, just shooting the balls and timing them empiricailly.
     public double calculateTOFToTarget(double shotVelocityMps, double shotAngleRad, double shooterHeightM, double targetHeightM) {
     double g = 9.81;
     double vy = shotVelocityMps * Math.sin(shotAngleRad);
