@@ -61,4 +61,29 @@ public class ShooterUtilities {
             double rotationalRate = getRotationController().calculate(currentAngle.getRadians(), desiredAngle.getRadians());
             return rotationalRate;
     }
+    
+    
+    // Calculate the time of flight to a target height. Useful for leading shots at low velocities.
+    public double calculateTOFToTarget(double shotVelocityMps, double shotAngleRad, double shooterHeightM, double targetHeightM) {
+    double g = 9.81;
+    double vy = shotVelocityMps * Math.sin(shotAngleRad);
+    double deltaY = targetHeightM - shooterHeightM;
+
+    double discriminant = vy * vy - 2 * g * deltaY;
+    if (discriminant < 0) {
+        // Target is unreachable
+        return -1;
+    }
+
+    double t1 = (vy + Math.sqrt(discriminant)) / g;
+    double t2 = (vy - Math.sqrt(discriminant)) / g;
+
+    // Pick the positive, realistic time
+    if (t1 > 0) return t1;
+    if (t2 > 0) return t2;
+
+    return -1; 
+
+    }
+
 }
